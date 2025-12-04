@@ -36,8 +36,8 @@ const taskController = {
         const sortField = validSortFields.includes(sortBy) ? sortBy : "createdAt";
 
         const result = await Task.findAll({
-            where,                
-            order: [[sortField, order]], 
+            where,
+            order: [[sortField, order]],
             limit: Number(limit),
             offset: Number(offset),
         });
@@ -50,7 +50,7 @@ const taskController = {
     async getTaskById(id, userId) {
 
         const result = await Task.findOne({
-            where: { id, userId },
+            where: { id, user_id: userId },
         });
 
         return result
@@ -59,16 +59,16 @@ const taskController = {
     async updateTask(id, data, userId) {
 
         await Task.update(data, {
-            where: { id, userId }
+            where: { id, user_id: userId }
         });
-        const result = await Task.findOne({ where: { id, userId } });
+        const result = await Task.findOne({ where: { id, user_id: userId } });
 
         return result
     },
 
     async deleteTask(id, userId) {
         const result = await Task.destroy({
-            where: { id, userId }
+            where: { id, user_id: userId }
         });
 
         return result
